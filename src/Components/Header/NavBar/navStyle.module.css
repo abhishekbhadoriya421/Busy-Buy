@@ -1,0 +1,30 @@
+.nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.anchorTag{
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: black;
+    transition: all 0.2s ease-in-out;
+}
+
+.anchorTag:hover{
+    color: rgb(19, 2, 201);
+    transform: scale(1.05);
+}
+
+.navImage{
+    width: 40px;
+    height: 40px;
+    text-decoration: none;
+}
+
+.navText{
+    margin-left: 10px;
+    font-size: 1.1rem;
+}
