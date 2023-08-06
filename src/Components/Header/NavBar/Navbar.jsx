@@ -18,13 +18,13 @@ export default function Navbar(){
                 </Link>
             </div>
             <div className="cart" to={'cart'}>
-                <Link className={style.anchorTag}>
+                <Link to={'myCart'} className={style.anchorTag}>
                     <img src={imageData.cart.url} className={style.navImage} alt="cartLoading" />
                     <span className={style.navText}>{imageData.cart.title}</span>
                 </Link>
             </div>
             <div className="session" >
-                <Link className={style.anchorTag}>
+                <Link to={'session'} className={style.anchorTag}>
                     <img src={imageData.signIn.url} className={style.navImage} alt="SessionLoading" />
                     <span className={style.navText}>{imageData.signIn.title}</span>
                 </Link>

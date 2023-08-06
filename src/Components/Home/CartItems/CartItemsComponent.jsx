@@ -4,6 +4,13 @@ function CartItemComponent(){
     return (<>
         <div className={style.ItemsContainer}>
             <Item/>
+            <Item/>
+            <Item/>
+            <Item/>
+            <Item/>
+            <Item/>
+            <Item/>
+            <Item/>
         </div>
     </>)
 }
