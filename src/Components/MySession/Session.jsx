@@ -12,12 +12,12 @@ function CreateSession(){
 
     // login to exist user
     function handleLogIn(username,password){
-        console.log( username,password)
+   
     }
 
     // Create new Account of user
     function handleSignUp(email,password,name){
-        console.log(email,password,name);
+        
     }
 
     // Handle Form on submit

@@ -1,4 +1,4 @@
-import CartItemComponent from './CartItems/CartItemsComponent';
+import Products from './Products/ProductsComponent';
 import style from './homeStyle.module.css';
 import Filter from './FilterComponent/Filter';
 
@@ -15,7 +15,7 @@ export default function HomeComponent(){
                     placeholder='Search By Name'  />
                 </div>
                 <div>
-                    <CartItemComponent/>
+                    <Products/>
                 </div>
             </div>
         </div>
