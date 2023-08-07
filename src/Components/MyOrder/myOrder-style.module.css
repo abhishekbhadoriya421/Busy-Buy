@@ -1,0 +1,28 @@
+.table{
+    margin: 50px auto;
+}
+
+.Title{
+    height: 40px;
+    width: 300px;
+}
+
+.Price{
+    width: 80px;
+}
+
+.Quantity{
+    width: 100px;
+}
+
+.totalPrice{
+    width: 130px;
+}
+
+.tableBody{
+    text-align: center;
+}
+
+.tableData{
+    height: 40px;
+}
