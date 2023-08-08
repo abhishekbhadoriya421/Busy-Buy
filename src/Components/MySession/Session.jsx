@@ -1,23 +1,18 @@
 import { createRef, useState } from 'react';
 import style from './sessionStyle.module.css';
+import { useContext } from 'react';
+import {FireBaseContext} from '../../ContextAPI/FireBaseUtilityProvider';
+
 function CreateSession(){
     const [formType,setFormType] = useState('Login');
+    const {handleSignUp,handleLogIn} = useContext(FireBaseContext);
+
+
     let username = createRef();
     let password = createRef();
-    let name = createRef();
     function handleSessionForm(type){
         setFormType(type);
         return;
-    }
-
-    // login to exist user
-    function handleLogIn(username,password){
-   
-    }
-
-    // Create new Account of user
-    function handleSignUp(email,password,name){
-        
     }
 
     // Handle Form on submit
@@ -26,8 +21,7 @@ function CreateSession(){
         if(formType==='Login'){
             handleLogIn(username.current.value,password.current.value);
         }else{
-            handleSignUp(username.current.value,password.current.value,name.current.value);
-            name.current.value="";
+            handleSignUp(username.current.value,password.current.value);
         }
         username.current.value="";
         password.current.value="";
@@ -37,13 +31,6 @@ function CreateSession(){
         <div className={style.sessionForm}>
             <h2 className={style.sessionHeading}>{formType}</h2><br/>
             <form onSubmit={handleFormSubmit}>
-                {(formType==='SignUp')?
-                    <div>
-                        <input type='Name' ref={name} className={style.sessionInput} placeholder='Enter Name' required/>
-                    </div>
-                :
-                    false  
-                }
                 <div>
                     <input type='email' ref={username} className={style.sessionInput} placeholder='Enter Username' required/>
                 </div>

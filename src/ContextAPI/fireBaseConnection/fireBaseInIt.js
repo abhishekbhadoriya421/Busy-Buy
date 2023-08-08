@@ -9,8 +9,9 @@ const firebaseConfig = {
   storageBucket: "buybusy-ec1cb.appspot.com",
   messagingSenderId: "496240318713",
   appId: "1:496240318713:web:ffdfc8caf481b4a9512a28",
-  measurementId: "G-L0V7PLNTEX"
+  measurementId: "G-L0V7PLNTEX",
+  databaseURL: "https://buybusy-ec1cb-default-rtdb.firebaseio.com"
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);

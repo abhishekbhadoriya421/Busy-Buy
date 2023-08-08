@@ -4,6 +4,9 @@ import HomeComponent from "./Components/Home/HomeComponent";
 import MyCart from "./Components/MyCart/MyCart";
 import CreateSession from "./Components/MySession/Session";
 import MyOrder from "./Components/MyOrder/MyOrder";
+import {FireBaseProvider} from './ContextAPI/FireBaseUtilityProvider';
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
@@ -32,9 +35,14 @@ function App() {
       ]
     }
   ])
+
+
   return (
     <div className="App">
-      <RouterProvider router={Router}/>
+      <FireBaseProvider>
+        <RouterProvider router={Router}/>
+      </FireBaseProvider>
+      <ToastContainer />
     </div>
   );
 }
