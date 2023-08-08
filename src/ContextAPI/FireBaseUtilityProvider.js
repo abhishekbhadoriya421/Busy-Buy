@@ -1,4 +1,4 @@
-import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword} from 'firebase/auth';
+import {getAuth,createUserWithEmailAndPassword} from 'firebase/auth';
 import {app} from './fireBaseConnection/fireBaseInIt';
 import { createContext, useEffect, useState } from 'react';
 import { ProductData } from '../data';
@@ -15,6 +15,8 @@ const auth = getAuth(app);
 function FireBaseProvider(props){
     const [userEmail,setUserEmail] = useState("");
     const [Products,setProducts] = useState(ProductData);
+    const [searchedProducts,setSearchProducts] = useState([]);
+    const [inputSearch,setInputSearch] = useState("");
 
     // If User Is SuccessFully Authenticated then save user detail in local storage
     useEffect(()=>{
@@ -41,6 +43,23 @@ function FireBaseProvider(props){
             toast('Account is not created! Please try again later');
         })
     }
+
+    // in handle search function 
+    useEffect(()=>{
+        if(inputSearch===""){
+            setSearchProducts([]);
+            return;
+        }else{
+            let filteredProduct = Products.filter((ele)=>{
+                return ele.name.toLocaleLowerCase().includes(inputSearch.toLocaleLowerCase());
+            })
+            if(filteredProduct.length===0){ // it means product not available
+                setSearchProducts(false); // false indicate that search product not found
+                return;
+            }
+            setSearchProducts(filteredProduct);
+        }
+    },[inputSearch,Products])
     
     return(<>
         <FireBaseContext.Provider 
@@ -48,7 +67,10 @@ function FireBaseProvider(props){
                 handleLogIn,
                 handleSignUp,
                 Products,
-                setProducts
+                setProducts,
+                setInputSearch,
+                inputSearch,
+                searchedProducts
             }}
         >    
             {props.children}

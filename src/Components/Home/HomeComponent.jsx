@@ -1,8 +1,12 @@
-import Products from './Products/ProductsComponent';
+import ProductContainer from './Products/ProductsComponent';
 import style from './homeStyle.module.css';
 import Filter from './FilterComponent/Filter';
+import { FireBaseContext } from '../../ContextAPI/FireBaseUtilityProvider';
+import { useContext } from 'react';
 
 export default function HomeComponent(){
+    const {setInputSearch,inputSearch} = useContext(FireBaseContext);
+    console.log(inputSearch);
     return(<>
         <div className={style.homeContainer}>
             <div className={style.aside}>
@@ -12,10 +16,12 @@ export default function HomeComponent(){
                 <div className={style.searchSection}>
                     <input type="text"
                     className={style.searchBox}
+                    onChange={(e)=>setInputSearch(e.target.value)}
+                    value={inputSearch}
                     placeholder='Search By Name'  />
                 </div>
                 <div>
-                    <Products/>
+                    <ProductContainer/>
                 </div>
             </div>
         </div>

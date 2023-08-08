@@ -11,8 +11,8 @@ export default function Filter() {
   const [priceRange,setPriceRange] = useState(35000);
   
 
-  const { setProducts } = useContext(FireBaseContext);
-
+  const { setProducts} = useContext(FireBaseContext);
+  
   // If All are set to False the show all Product's else show only selected Product's
   useEffect(() => {
     const categoryFilters = {
@@ -46,6 +46,7 @@ export default function Filter() {
         //  now set Product array to Filtered array
         setProducts(filteredArray);
     }
+
   }, [menCloths, womenCloths, jewelry, electronics, setProducts,priceRange]);
 
   const handleRangeChange = (e) =>{
