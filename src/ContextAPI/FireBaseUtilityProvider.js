@@ -1,4 +1,4 @@
-import {getAuth,createUserWithEmailAndPassword} from 'firebase/auth';
+import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword} from 'firebase/auth';
 import {app} from './fireBaseConnection/fireBaseInIt';
 import { createContext, useEffect, useState } from 'react';
 import { ProductData } from '../data';
@@ -18,16 +18,32 @@ function FireBaseProvider(props){
     const [searchedProducts,setSearchProducts] = useState([]);
     const [inputSearch,setInputSearch] = useState("");
 
-    // If User Is SuccessFully Authenticated then save user detail in local storage
+    // in local storage if email is present then user is logged in then set the userEmail
     useEffect(()=>{
-        if(userEmail){
+        let checkUserLog = localStorage.getItem('email');
+        if(checkUserLog){
+            setUserEmail(localStorage.getItem("email"));
+        }
+    },[])
+
+    // If User Is SuccessFully Authenticated then save user detail in local storage only if user is not present in local 
+    useEffect(()=>{
+        if(userEmail && !localStorage.getItem('email')){
             localStorage.setItem('email',userEmail);
         }
     },[userEmail]);
 
     // login to exist user
     function handleLogIn(email,password){
-        console.log(email,password);
+        signInWithEmailAndPassword(auth,email,password)
+        // if logged in the redirect to home 
+        .then((res)=>{
+            setUserEmail(email);
+            toast(`Hy ${email} ! You Logged In`);
+            
+        }).catch((err)=>{
+            toast('Wrong Email or Password');
+        })
     }
 
     // Create new Account of user
@@ -70,7 +86,8 @@ function FireBaseProvider(props){
                 setProducts,
                 setInputSearch,
                 inputSearch,
-                searchedProducts
+                searchedProducts,
+                userEmail
             }}
         >    
             {props.children}

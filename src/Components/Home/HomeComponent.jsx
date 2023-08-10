@@ -6,7 +6,6 @@ import { useContext } from 'react';
 
 export default function HomeComponent(){
     const {setInputSearch,inputSearch} = useContext(FireBaseContext);
-    console.log(inputSearch);
     return(<>
         <div className={style.homeContainer}>
             <div className={style.aside}>
