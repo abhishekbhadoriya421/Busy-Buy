@@ -4,9 +4,10 @@ import HomeComponent from "./Components/Home/HomeComponent";
 import MyCart from "./Components/MyCart/MyCart";
 import CreateSession from "./Components/MySession/Session";
 import MyOrder from "./Components/MyOrder/MyOrder";
-import {FireBaseProvider} from './ContextAPI/FireBaseUtilityProvider';
+import {FireBaseProvider} from './ContextAPI/SessionHandlerContext';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ProductHandlerProvider } from "./ContextAPI/UserProductHandlerContext";
 
 function App() {
 
@@ -40,8 +41,12 @@ function App() {
   return (
     <div className="App">
       <FireBaseProvider>
-        <RouterProvider router={Router}/>
+        <ProductHandlerProvider>
+          <RouterProvider router={Router}/>
+        </ProductHandlerProvider>
       </FireBaseProvider>
+
+      {/* Notification */}
       <ToastContainer />
     </div>
   );

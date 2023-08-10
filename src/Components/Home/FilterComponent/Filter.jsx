@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import style from "../homeStyle.module.css";
-import { FireBaseContext } from "../../../ContextAPI/FireBaseUtilityProvider";
+import { FireBaseContext } from "../../../ContextAPI/SessionHandlerContext";
 import { ProductData } from "../../../data";
 
 export default function Filter() {

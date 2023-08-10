@@ -1,50 +1,60 @@
-import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword} from 'firebase/auth';
+import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut} from 'firebase/auth';
 import {app} from './fireBaseConnection/fireBaseInIt';
 import { createContext, useEffect, useState } from 'react';
 import { ProductData } from '../data';
+import { collection, addDoc, query,where,getDocs ,getFirestore} from "firebase/firestore"; 
 
 // Notification Library
 import { toast } from 'react-toastify';
 
-
 const FireBaseContext  = createContext();
-// Creating Auth instance 
+// Creating Database instances
 const auth = getAuth(app);
-
+const db = getFirestore(app);
 
 function FireBaseProvider(props){
-    const [userEmail,setUserEmail] = useState("");
+    const [user,setUser] = useState(null);
     const [Products,setProducts] = useState(ProductData);
     const [searchedProducts,setSearchProducts] = useState([]);
     const [inputSearch,setInputSearch] = useState("");
+    const [userID,setUserId] = useState(null);
 
-    // in local storage if email is present then user is logged in then set the userEmail
     useEffect(()=>{
-        let checkUserLog = localStorage.getItem('email');
-        if(checkUserLog){
-            setUserEmail(localStorage.getItem("email"));
+        if(userID){
+            localStorage.setItem('userId',userID);
         }
-    },[])
+    },[userID])
 
-    // If User Is SuccessFully Authenticated then save user detail in local storage only if user is not present in local 
-    useEffect(()=>{
-        if(userEmail && !localStorage.getItem('email')){
-            localStorage.setItem('email',userEmail);
-        }
-    },[userEmail]);
+// Database Functions
+    // when new Account is create
+    async function addNewUserEntryInDatabase(email){
+        const collectionRef = collection(db,'User');
+        const docID = await addDoc(collectionRef,{
+            email:email,
+            createdAt: new Date(),
+        })
+        setUserId(docID);
+    }
+    // when existent user is logged in
+    async function findUserId(email){
+        const q = query(collection(db,"User"), where("email","==",email));
 
-    // login to exist user
-    function handleLogIn(email,password){
-        signInWithEmailAndPassword(auth,email,password)
-        // if logged in the redirect to home 
-        .then((res)=>{
-            setUserEmail(email);
-            toast(`Hy ${email} ! You Logged In`);
-            
-        }).catch((err)=>{
-            toast('Wrong Email or Password');
+        const querySnapShot = await getDocs(q);
+        querySnapShot.forEach((doc)=>{
+            setUserId(doc.id);
         })
     }
+//  check if user is logged in or not
+    useEffect(()=>{
+        onAuthStateChanged(auth,user=>{
+            if(user){
+                setUser(user);
+            }else{
+                setUser(null);
+                localStorage.clear();
+            }
+        })
+    },[]);
 
     // Create new Account of user
     function handleSignUp(email,password){
@@ -54,10 +64,28 @@ function FireBaseProvider(props){
             password
         ).then((res)=>{
             toast(`Hello ${email} Your Account Is Created Successfully`);
-            setUserEmail(email);
+            addNewUserEntryInDatabase(email);
         }).catch((err)=>{
             toast('Account is not created! Please try again later');
         })
+    }
+
+    // login to existing user
+    function handleLogIn(email,password){
+        signInWithEmailAndPassword(auth,email,password)
+        // if logged in the redirect to home 
+        .then((res)=>{
+            toast(`Hy ${email} ! You Logged In`);
+            findUserId(email);
+        }).catch((err)=>{
+            toast('Wrong Email or Password');
+        })
+    }
+
+    // Destroy session or SignOut
+    const handleDestroySession = ()=>{
+        signOut(auth);
+        toast('Logged Out Successfully');
     }
 
     // in handle search function 
@@ -76,7 +104,7 @@ function FireBaseProvider(props){
             setSearchProducts(filteredProduct);
         }
     },[inputSearch,Products])
-    
+
     return(<>
         <FireBaseContext.Provider 
         value={{
@@ -87,7 +115,8 @@ function FireBaseProvider(props){
                 setInputSearch,
                 inputSearch,
                 searchedProducts,
-                userEmail
+                user,
+                handleDestroySession
             }}
         >    
             {props.children}

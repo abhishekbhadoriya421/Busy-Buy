@@ -1,7 +1,7 @@
 import ProductContainer from './Products/ProductsComponent';
 import style from './homeStyle.module.css';
 import Filter from './FilterComponent/Filter';
-import { FireBaseContext } from '../../ContextAPI/FireBaseUtilityProvider';
+import { FireBaseContext } from '../../ContextAPI/SessionHandlerContext';
 import { useContext } from 'react';
 
 export default function HomeComponent(){

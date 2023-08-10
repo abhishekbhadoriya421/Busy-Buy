@@ -1,13 +1,13 @@
-import { createRef, useState } from 'react';
+import { createRef, useEffect, useState } from 'react';
 import style from './sessionStyle.module.css';
 import { useContext } from 'react';
-import {FireBaseContext} from '../../ContextAPI/FireBaseUtilityProvider';
+import {FireBaseContext} from '../../ContextAPI/SessionHandlerContext';
 import { useNavigate } from 'react-router-dom';
 
 
 function CreateSession(){
     const [formType,setFormType] = useState('Login');
-    const {handleSignUp,handleLogIn,userEmail} = useContext(FireBaseContext);
+    const {handleSignUp,handleLogIn,user} = useContext(FireBaseContext);
     const navigate = useNavigate();
 
     let username = createRef();
@@ -28,10 +28,17 @@ function CreateSession(){
         username.current.value="";
         password.current.value="";
     }
+
+    // Use effect To navigate
+    useEffect(()=>{
+        if(user){
+            navigate('/');
+        }
+    })
     return(<>
 
     {/* if user is not logged in only then show login page else redirect to home page */}
-        {(userEmail==="")?
+        {(!user)?
             <div className={style.sessionForm}>
             <h2 className={style.sessionHeading}>{formType}</h2><br/>
             <form onSubmit={handleFormSubmit}>
@@ -64,7 +71,7 @@ function CreateSession(){
             
         </div>
         :
-            navigate('/')
+            <h1>You made something wrong</h1>
         }
         
     </>)

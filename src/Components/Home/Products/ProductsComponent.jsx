@@ -1,7 +1,7 @@
 import style from './cart-Item-style.module.css';
 import Item from './Item/Item';
 import { useContext } from 'react';
-import { FireBaseContext } from '../../../ContextAPI/FireBaseUtilityProvider';
+import { FireBaseContext } from '../../../ContextAPI/SessionHandlerContext';
 function CartItemComponent(){
     const {Products,searchedProducts} = useContext(FireBaseContext);
 
