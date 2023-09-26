@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import style from './CartItem-style.module.css';
-export default function CartItem(){
+export default function CartItem({id,name,imageURL,price,handleRemoveFromCart}){
 
     const [quantity,setQuantity] = useState(1);
     // Handle Increase 
@@ -24,29 +24,31 @@ export default function CartItem(){
     return(<>
         <div className={style.itemContainer}>
             <div className={style.ItemImage}>
-                <img src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+                <img src={imageURL}
                 className={style.Image}
-                alt="" />
+                alt={name} />
             </div>
-            <p className={style.ItemName}>Fjallraven - Foldsack No. 1 Backpac...</p>
-            <div className={style.priceAndQuantity}>
-                <p className={style.ItemPrice}>
-                    &#8377;
-                    <span>1099</span>
-                </p>
+            <div className={style.detailContainer}>
+                <p className={style.ItemName}>{name}</p>
+                <div className={style.priceAndQuantity}>
+                    <p className={style.ItemPrice}>
+                        &#8377;
+                        <span>{price}</span>
+                    </p>
 
-                <p className={style.quantity}>
-                   <p className={style.manipulateQuantity}
-                      onClick={handleIncreaseQuantity}
-                   >+</p>
-                   <p>{quantity}</p>
-                   <p className={style.manipulateQuantity}
-                     onClick={handleDecreaseQuantity}
-                   >-</p>
-                </p>
+                    <div className={style.quantity}>
+                    <p className={style.manipulateQuantity}
+                        onClick={handleIncreaseQuantity}
+                    >+</p>
+                    <p>{quantity}</p>
+                    <p className={style.manipulateQuantity}
+                        onClick={handleDecreaseQuantity}
+                    >-</p>
+                    </div>
+                </div>
             </div>
             
-            <button className={style.addToCartBtn}>RemoveFromCart</button>
+            <button className={style.addToCartBtn} onClick={()=>handleRemoveFromCart(id)} >RemoveFromCart</button>
         </div>
     </>)
 }

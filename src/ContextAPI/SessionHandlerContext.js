@@ -116,6 +116,7 @@ function FireBaseProvider(props){
                 inputSearch,
                 searchedProducts,
                 user,
+                userID,
                 handleDestroySession
             }}
         >    
